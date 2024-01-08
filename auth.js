@@ -1,9 +1,13 @@
 import NextAuth from "next-auth"
-import GitHub from "next-auth/providers/github"
+import authConfig from "./auth.config"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import clientPromise from "./lib/mongodb"
 
 export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
-  providers: [GitHub],
+  adapter: MongoDBAdapter(clientPromise),
+  session: { strategy: "jwt" },
+  ...authConfig
 })

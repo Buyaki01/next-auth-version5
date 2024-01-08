@@ -4,17 +4,25 @@ import { useState } from "react"
 import { FaGoogle } from "react-icons/fa"
 import Link from "next/link"
 
-const LoginPage = () => {
+const RegisterPage = () => {
+  const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
 
-  const handleLogin = () => {
-    console.log("Login function")
+  const handleRegisterUser = () => {
+    console.log("Register function")
   }
 
   return (
     <div className="min-h-screen">
-      <h1 className="my-5 font-bold text-center text-2xl">Login</h1>
+      <h1 className="my-5 font-bold text-center text-2xl">Register</h1>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
       <input
         type="text"
         placeholder="Email"
@@ -32,7 +40,7 @@ const LoginPage = () => {
 
       <button
         className="w-full text-white px-4 py-2"
-        onClick={handleLogin}
+        onClick={handleRegisterUser}
       >
         Log In
       </button>
@@ -44,10 +52,10 @@ const LoginPage = () => {
       </div>
 
       <p className="text-sm mt-3">
-        Have no account? <Link className="underline" href={"/auth/register"}>Sign Up</Link>
+        Have an account? <Link className="underline" href={"/auth/login"}>Log In</Link>
       </p>
     </div>
   )
 }
 
-export default LoginPage
+export default RegisterPage
