@@ -5,6 +5,9 @@ import { FaGoogle } from "react-icons/fa"
 import Link from "next/link"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
+import { AuthError } from "next-auth"
+import { signIn } from "next-auth/react"
 
 const LoginPage = () => {
   const [email, setEmail] = useState("")
@@ -25,13 +28,12 @@ const LoginPage = () => {
       const response = await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirectTo: DEFAULT_LOGIN_REDIRECT //in future add callback url to it
       })
 
       if(response.status === 200 ) {
         toast.success("Login successful")
         router.back()
-        // router.push("/")
       }
 
       if (response.status === 401) {
@@ -39,7 +41,15 @@ const LoginPage = () => {
         return
       }
     } catch (error) {
-      console.log(error)
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case "CredentialsSignin":
+            return { error: "Invalid credentials!" }
+          default:
+            return { error: "Something went wrong!" }
+        }
+      }
+      throw error //You have to add throw error otherwise user will not be redirected to the next page after logging in, in my case, the settings page
     }
   }
 
