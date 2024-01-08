@@ -3,13 +3,42 @@
 import { useState } from "react"
 import { FaGoogle } from "react-icons/fa"
 import Link from "next/link"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 const LoginPage = () => {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const router = useRouter()
 
-  const handleLogin = () => {
-    console.log("Login function")
+  const handleLogin = async () => {
+    try {
+      console.log("This is the login email: ", email)
+      console.log("This is the login password: ", password)
+      
+      if (!email || !password) {
+        toast.error("All Fields are required!")
+      }
+      
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      })
+
+      if(response.status === 200 ) {
+        toast.success("Login successful")
+        router.back()
+        // router.push("/")
+      }
+
+      if (response.status === 401) {
+        toast.error("Invalid Credentials! Try again!")
+        return
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
