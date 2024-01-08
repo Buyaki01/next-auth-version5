@@ -1,9 +1,9 @@
-import {Login} from '../app/components/login'
+import {HomePage} from './components/HomePage'
 
 export default function Home() {
   return (
     <main>
-      <Login />
+      <HomePage />
     </main>
   )
 }
