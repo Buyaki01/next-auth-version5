@@ -11,3 +11,5 @@ export const {
   session: { strategy: "jwt" },
   ...authConfig
 })
+
+//Callbacks are important when you want to trigger next-auth actions like: sign in, authorized, sign out, redirect...etc
