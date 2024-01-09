@@ -24,11 +24,8 @@ input:focus, textarea:focus, select:focus{
   @apply border-lime-800;
 }
 
-button {
-  @apply rounded-lg;
-}
-
 button{
+  @apply rounded-lg;
   background-color: #d40d9a;
   border: none;
   box-shadow: none;

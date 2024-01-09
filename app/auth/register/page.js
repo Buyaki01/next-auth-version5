@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { FaGoogle } from "react-icons/fa"
+import { FaGithub, FaGoogle } from "react-icons/fa"
 import Link from "next/link"
 import toast from "react-hot-toast"
 import axios from "axios"
@@ -79,8 +79,14 @@ const RegisterPage = () => {
 
       <span className="text-sm font-bold flex justify-center mt-3">or</span>
 
-      <div className="flex border border-slate-500 border-2 justify-center items-center gap-2 px-6 py-2 mt-3">
-        <FaGoogle /> Login with Google
+      <div>
+        <div className="flex border border-slate-500 border-2 justify-center items-center gap-2 px-6 py-2 mt-3">
+          <FaGoogle />
+        </div>
+
+        <div>
+          <FaGithub />
+        </div>
       </div>
 
       <p className="text-sm mt-3">
