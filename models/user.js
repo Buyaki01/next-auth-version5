@@ -1,5 +1,7 @@
 import { Schema, model, models } from 'mongoose'
 
+const userRoles = ['Admin', 'User']
+
 const UserSchema = new Schema({
   name: {
     type: String,
@@ -12,6 +14,11 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  role: {
+    type: [String],
+    enum: userRoles,
+    default: ['User'],
   },
 },
   { timestamps: true }

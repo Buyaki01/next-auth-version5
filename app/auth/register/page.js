@@ -32,7 +32,7 @@ const RegisterPage = () => {
 
       if(response.data.user) {
         toast.success("Account created successfully")
-        router.push('/')
+        router.push('/auth/login')
       }
 
     } catch (error) {
