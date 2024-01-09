@@ -1,3 +1,4 @@
+// 'use client'
 import { auth } from "@/auth"
 // import { signOut } from "next-auth/react"
 
@@ -14,6 +15,7 @@ const SettingsPage = async () => {
 
       <form className="m-3">
         <button
+          // onClick={handleLogout}
           className="px-4 py-2 text-white"
         >
           Log out
