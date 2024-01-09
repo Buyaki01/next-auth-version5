@@ -4,7 +4,7 @@ import { useState } from "react"
 import { FaGoogle } from "react-icons/fa"
 import Link from "next/link"
 import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 import { AuthError } from "next-auth"
 import { signIn } from "next-auth/react"
@@ -13,6 +13,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const handleLogin = async (e) => {
     e.preventDefault()

@@ -11,6 +11,24 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+
+  events: {
+    async linkAccount({user}) {
+      console.log("This is the user in events: ", user)
+      await connectMongoDB()
+      const updateField = await User.findByIdAndUpdate(
+        { _id: user.id },
+        { emailVerified: new Date() },
+        { new: true }
+      )
+      console.log("This is updated emailVerified: ", updateField)
+    }
+  },
+
   callbacks: {
     async session({ token, session }) {
       if (token.sub && session.user) {

@@ -6,6 +6,8 @@ import Link from "next/link"
 import toast from "react-hot-toast"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 
 const RegisterPage = () => {
   const [name, setName] = useState()
@@ -28,7 +30,6 @@ const RegisterPage = () => {
       }
 
       const response = await axios.post('/api/auth/register', { name, email, password })
-      console.log("This is the response data: ", response.data)
 
       if(response.data.user) {
         toast.success("Account created successfully")
@@ -38,6 +39,12 @@ const RegisterPage = () => {
     } catch (error) {
       console.log("Error during registration: ", error)
     }
+  }
+
+  const onClick = (provider) => {
+    signIn(provider, {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT
+    })
   }
 
   return (
@@ -77,16 +84,22 @@ const RegisterPage = () => {
         </button>
       </form>
 
-      <span className="text-sm font-bold flex justify-center mt-3">or</span>
+      <span className="text-sm font-bold flex justify-center mt-3"> or </span>
 
-      <div>
-        <div className="flex border border-slate-500 border-2 justify-center items-center gap-2 px-6 py-2 mt-3">
-          <FaGoogle />
-        </div>
+      <div className="flex gap-3 justify-center my-3">
+        <button
+          onClick={() => onClick("google")}
+          className="px-4 py-2 text-white border border-2 border-slate-400"
+        >
+          <FaGoogle className="text-2xl"/>
+        </button>
 
-        <div>
-          <FaGithub />
-        </div>
+        <button
+          onClick={() => onClick("github")}
+          className="px-4 py-2 text-white border border-2 border-slate-400"
+        >
+          <FaGithub className="text-2xl"/>
+        </button>
       </div>
 
       <p className="text-sm mt-3">
