@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaGithub, FaGoogle } from "react-icons/fa"
 import Link from "next/link"
 import toast from "react-hot-toast"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 import { AuthError } from "next-auth"
 import { signIn } from "next-auth/react"
@@ -12,13 +12,20 @@ import { signIn } from "next-auth/react"
 const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const router = useRouter()
+  const [loading, setLoading] = useState(false)
   const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get("error") === "OAuthAccountNotLinked") {
+      toast.error("Email already in use with a different provider!")
+    }
+  }, [])
 
   const handleLogin = async (e) => {
     e.preventDefault()
 
     try {
+      setLoading(true)
       if (!email || !password) {
         toast.error("All Fields are required!")
       }
@@ -29,15 +36,12 @@ const LoginPage = () => {
         redirectTo: DEFAULT_LOGIN_REDIRECT //in future add callback url to it
       })
 
-      if(response.status === 200 ) {
-        toast.success("Login successful")
-        router.push("/")
-      }
-
       if (response.status === 401) {
         toast.error("Invalid Credentials! Try again!")
         return
       }
+
+      setLoading(false)
     } catch (error) {
       if (error instanceof AuthError) {
         switch (error.type) {
@@ -82,6 +86,7 @@ const LoginPage = () => {
           <button
             className="w-full text-white px-4 py-2"
             onClick={handleLogin}
+            disabled={loading}
           >
             Log In
           </button>
