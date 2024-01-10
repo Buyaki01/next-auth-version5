@@ -11,17 +11,25 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+
+  events: {
+    async linkAccount({user}) {
+      console.log("This is the user in events: ", user)
+      await connectMongoDB()
+      const updateField = await User.findByIdAndUpdate(
+        { _id: user.id },
+        { emailVerified: new Date() },
+        { new: true }
+      )
+      console.log("This is updated emailVerified: ", updateField)
+    }
+  },
+
   callbacks: {
-    // async signIn({ user }) {//when user logs out, there is a field called emailVerified which becomes null, in that case when email is not verified, that user should not be allowed to/ blocked from signIn
-    //   console.log("This is the user in signIn method: ", user)
-    //   await connectMongoDB()
-    //   const existingUser = await User.findOne({ _id: user.id })
-
-    //   if (!existingUser || !existingUser.emailVerified) {
-    //     return false
-    //   }
-    // },
-
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub

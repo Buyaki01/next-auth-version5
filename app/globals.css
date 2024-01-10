@@ -24,11 +24,8 @@ input:focus, textarea:focus, select:focus{
   @apply border-lime-800;
 }
 
-button {
+button, button[type="submit"] {
   @apply rounded-lg;
-}
-
-button{
   background-color: #d40d9a;
   border: none;
   box-shadow: none;
