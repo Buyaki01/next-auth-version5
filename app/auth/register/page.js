@@ -19,7 +19,6 @@ const RegisterPage = () => {
     e.preventDefault()
 
     try {
-      console.log("This is the register email: ", email)
       const resUserExists = await axios.post("/api/auth/register/check-register-user-exists", { email })
 
       const { user } = await resUserExists.data
@@ -48,63 +47,65 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen">
-      <h1 className="my-5 font-bold text-center text-2xl">Register</h1>
-      <form>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          autoComplete="off"
-        />
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          autoComplete="off"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          autoComplete="off"
-        />
+    <div className="min-h-screen w-full flex justify-center items-center">
+      <div className="w-[600px] p-2 shadow-2xl shadow-rose-300">
+        <h1 className="my-5 font-bold text-2xl text-center">Register</h1>
+        <form>
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            autoComplete="off"
+          />
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="off"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="off"
+          />
 
-        <button
-          className="w-full text-white px-4 py-2"
-          onClick={handleRegisterUser}
-        >
-          Register
-        </button>
-      </form>
+          <button
+            className="w-full text-white px-4 py-2"
+            onClick={handleRegisterUser}
+          >
+            Register
+          </button>
+        </form>
 
-      <span className="text-sm font-bold flex justify-center mt-3"> or </span>
+        <span className="text-sm font-bold flex justify-center mt-3"> or </span>
 
-      <div className="flex gap-3 justify-center my-3">
-        <button
-          onClick={() => onClick("google")}
-          className="px-4 py-2 text-white border border-2 border-slate-400"
-        >
-          <FaGoogle className="text-2xl"/>
-        </button>
+        <div className="flex gap-3 justify-center my-3">
+          <button
+            onClick={() => onClick("google")}
+            className="px-4 py-2 text-white border border-2 border-slate-400"
+          >
+            <FaGoogle className="text-2xl"/>
+          </button>
 
-        <button
-          onClick={() => onClick("github")}
-          className="px-4 py-2 text-white border border-2 border-slate-400"
-        >
-          <FaGithub className="text-2xl"/>
-        </button>
+          <button
+            onClick={() => onClick("github")}
+            className="px-4 py-2 text-white border border-2 border-slate-400"
+          >
+            <FaGithub className="text-2xl"/>
+          </button>
+        </div>
+
+        <p className="text-sm mt-3 text-center">
+          Have an account? <Link className="underline" href={"/auth/login"}>Log In</Link>
+        </p>
       </div>
-
-      <p className="text-sm mt-3">
-        Have an account? <Link className="underline" href={"/auth/login"}>Log In</Link>
-      </p>
     </div>
   )
 }

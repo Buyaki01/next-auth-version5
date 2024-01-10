@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { FaGoogle } from "react-icons/fa"
+import { FaGithub, FaGoogle } from "react-icons/fa"
 import Link from "next/link"
 import toast from "react-hot-toast"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -19,9 +19,6 @@ const LoginPage = () => {
     e.preventDefault()
 
     try {
-      console.log("This is the login email: ", email)
-      console.log("This is the login password: ", password)
-      
       if (!email || !password) {
         toast.error("All Fields are required!")
       }
@@ -34,7 +31,7 @@ const LoginPage = () => {
 
       if(response.status === 200 ) {
         toast.success("Login successful")
-        router.back()
+        router.push("/")
       }
 
       if (response.status === 401) {
@@ -54,44 +51,64 @@ const LoginPage = () => {
     }
   }
 
+  const onClick = (provider) => {
+    signIn(provider, {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT
+    })
+  }
+
   return (
-    <div className="min-h-screen">
-      <h1 className="my-5 font-bold text-center text-2xl">Login</h1>
-      <form>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          autoComplete="off"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          autoComplete="off"
-        />
+    <div className="min-h-screen w-full flex justify-center items-center">
+      <div className="w-[600px] p-2 shadow-2xl shadow-rose-300">
+        <h1 className="my-5 font-bold text-2xl text-center">Login</h1>
+        <form>
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="off"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="off"
+          />
 
-        <button
-          className="w-full text-white px-4 py-2"
-          onClick={handleLogin}
-        >
-          Log In
-        </button>
-      </form>
+          <button
+            className="w-full text-white px-4 py-2"
+            onClick={handleLogin}
+          >
+            Log In
+          </button>
+        </form>
 
-      <span className="text-sm font-bold flex justify-center mt-3">or</span>
+        <span className="text-sm font-bold flex justify-center mt-3">or</span>
 
-      <div className="flex border border-slate-500 border-2 justify-center items-center gap-2 px-6 py-2 mt-3">
-        <FaGoogle /> Login with Google
+        <div className="flex gap-3 justify-center my-3">
+          <button
+            onClick={() => onClick("google")}
+            className="px-4 py-2 text-white border border-2 border-slate-400"
+          >
+            <FaGoogle className="text-2xl"/>
+          </button>
+
+          <button
+            onClick={() => onClick("github")}
+            className="px-4 py-2 text-white border border-2 border-slate-400"
+          >
+            <FaGithub className="text-2xl"/>
+          </button>
+        </div>
+
+        <p className="text-sm mt-3 text-center">
+          Have no account? <Link className="underline" href={"/auth/register"}>Sign Up</Link>
+        </p>
       </div>
-
-      <p className="text-sm mt-3">
-        Have no account? <Link className="underline" href={"/auth/register"}>Sign Up</Link>
-      </p>
     </div>
   )
 }
