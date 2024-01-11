@@ -29,11 +29,13 @@ const RegisterPage = () => {
       }
 
       const response = await axios.post('/api/auth/register', { name, email, password })
+      
+      toast.success("Confirmation Email sent!")
 
-      if(response.data.user) {
-        toast.success("Account created successfully")
-        router.push('/auth/login')
-      }
+      // if(response.data.user) {
+      //   toast.success("Account created successfully")
+      //   router.push('/auth/login')
+      // }
 
     } catch (error) {
       console.log("Error during registration: ", error)
