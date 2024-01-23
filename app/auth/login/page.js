@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 import { AuthError } from "next-auth"
 import { signIn } from "next-auth/react"
+import axios from "axios"
 
 const LoginPage = () => {
   const [email, setEmail] = useState("")
@@ -29,6 +30,20 @@ const LoginPage = () => {
       if (!email || !password) {
         toast.error("All Fields are required!")
       }
+
+      const existingUser = await axios.post('/api/auth/register/check-register-user-exists', { email })
+
+      if (!existingUser || !existingUser.data.user.email || !existingUser.data.user.password) {
+        toast.error("Email does not exist!")
+        return { error: "Email does not exist!" }
+      }
+
+      if (!existingUser.data.user.emailVerified) {
+        toast.error("Please check your email address to verify your email first!")
+        const verificationToken = await axios.post('/api/tokens/verification-token', existingUser.email )
+      }
+
+      toast.success("Confirmation email sent")
       
       const response = await signIn("credentials", {
         email,

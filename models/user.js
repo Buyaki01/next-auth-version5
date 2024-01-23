@@ -20,6 +20,9 @@ const UserSchema = new Schema({
     enum: userRoles,
     default: ['User'],
   },
+  emailVerified: {
+    type: Date,
+  },
 },
   { timestamps: true }
 )

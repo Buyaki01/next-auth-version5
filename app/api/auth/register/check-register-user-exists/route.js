@@ -9,7 +9,7 @@ export const POST = async (request) => {
 
     await connectMongoDB()
 
-    const user = await User.findOne({ email }).select("_id") //Find a user in the database based on the provided email and select only the "_id" field
+    const user = await User.findOne({ email }) //.select("_id") //Find a user in the database based on the provided email and select only the "_id" field
 
     return NextResponse.json({ user })
   } catch (error) {
