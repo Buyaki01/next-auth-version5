@@ -20,6 +20,8 @@ export const POST = async (request) => {
 
     await connectMongoDB()
 
+    const user = await User.create({ name, email, password: hashedPassword })
+
     const token = uuidv4()
     const expires = new Date(new Date().getTime() + 3600 * 1000 )
     
@@ -35,10 +37,9 @@ export const POST = async (request) => {
       expires: expires,
     })
 
-    const user = await User.create({ name, email, password: hashedPassword })
-
     return NextResponse.json({ message: "User registered Successfully", user, verificationToken }, { status: 201 })
   } catch (error) {
+    console.error("An error occurred while registering the user: ", error)
     return NextResponse.json({ message: "An error occurred while registering the user"}, { status: 500 })
   }
 }

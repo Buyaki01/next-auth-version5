@@ -38,12 +38,11 @@ const LoginPage = () => {
         return { error: "Email does not exist!" }
       }
 
-      if (!existingUser.data.user.emailVerified) {
-        toast.error("Please check your email address to verify your email first!")
-        const verificationToken = await axios.post('/api/tokens/verification-token', existingUser.email )
-      }
-
-      toast.success("Confirmation email sent")
+      // if (!existingUser.data.user.emailVerified) {
+      //   toast.error("Please check your email address to verify your email first!")
+      //   const verificationToken = await axios.post('api/tokens/login-verification-token', existingUser.email )
+      //   console.log("This is the verificationToken from the login page: ", verificationToken)
+      // }
       
       const response = await signIn("credentials", {
         email,

@@ -28,7 +28,11 @@ const RegisterPage = () => {
         return
       }
 
-      const response = await axios.post('/api/auth/register', { name, email, password })
+      const tokenResponse = await axios.post('/api/auth/register', { name, email, password })
+
+      const { verificationToken } = tokenResponse.data
+
+      await axios.post('/api/send', { token: verificationToken.token, email: verificationToken.email })
       
       toast.success("Confirmation Email sent!")
 

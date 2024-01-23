@@ -13,6 +13,6 @@ export const POST = async (request) => {
 
     return NextResponse.json({ user })
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
