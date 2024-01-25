@@ -9,7 +9,7 @@ export const POST = async (request) => {
   const expires = new Date(new Date().getTime() + 3600 * 1000 )
   
   connectMongoDB()
-  const existingToken = await VerificationToken.findOne({ email: email })
+  const existingToken = await VerificationToken.findOne({ email })
 
   if (existingToken) {
     await VerificationToken.deleteOne({ _id: existingToken._id })

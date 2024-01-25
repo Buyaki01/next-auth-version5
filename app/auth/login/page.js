@@ -27,8 +27,10 @@ const LoginPage = () => {
 
     try {
       setLoading(true)
+
       if (!email || !password) {
         toast.error("All Fields are required!")
+        return
       }
 
       const existingUser = await axios.post('/api/auth/register/check-register-user-exists', { email })
@@ -38,11 +40,10 @@ const LoginPage = () => {
         return { error: "Email does not exist!" }
       }
 
-      // if (!existingUser.data.user.emailVerified) {
-      //   toast.error("Please check your email address to verify your email first!")
-      //   const verificationToken = await axios.post('api/tokens/login-verification-token', existingUser.email )
-      //   console.log("This is the verificationToken from the login page: ", verificationToken)
-      // }
+      if (!existingUser.data.user.emailVerified) {
+        const verificationToken = await axios.post('api/tokens/login-verification-token', existingUser.data.user.email )
+        // toast.success("Confirmation Email sent!")
+      }
       
       const response = await signIn("credentials", {
         email,
