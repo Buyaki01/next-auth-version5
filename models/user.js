@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   },
   emailVerified: {
     type: Date,
+    default: null,
   },
 },
   { timestamps: true }

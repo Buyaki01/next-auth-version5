@@ -34,7 +34,7 @@ const RegisterPage = () => {
 
       await axios.post('/api/send', { token: verificationToken.token, email: verificationToken.email })
       
-      toast.success("Confirmation Email sent!")
+      toast.success("Confirmation Email sent! Please check your email address and verify your account!")
 
       // if(response.data.user) {
       //   toast.success("Account created successfully")

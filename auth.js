@@ -17,25 +17,25 @@ export const {
   },
 
   events: {
-    async linkAccount({user}) {
-      console.log("This is the user in events: ", user)
+    async linkAccount({user}) { //linkAccount is used to Update the emailVerified field from null to the new Date() whenever user uses OAuth of trusted providers like Google and Github
       await connectMongoDB()
-      const updateField = await User.findByIdAndUpdate(
+      await User.findByIdAndUpdate(
         { _id: user.id },
         { emailVerified: new Date() },
         { new: true }
       )
-      console.log("This is updated emailVerified: ", updateField)
     }
   },
 
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account }) { //signIn callback is used to prevent sign in without email verification.
       // Allow OAuth without email verification
       if (account?.provider !== "credentials") return true
-
-      const existingUser = await User.findOne({ _id: user._id })
-
+      
+      await connectMongoDB()
+      const existingUser = await User.findOne({ _id: user.id })
+      
+      //Prevent sign in without email verification
       // if (!existingUser?.emailVerified) return false
 
       return true
