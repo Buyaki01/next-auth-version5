@@ -30,16 +30,21 @@ const RegisterPage = () => {
 
       const tokenResponse = await axios.post('/api/auth/register', { name, email, password })
 
-      const { verificationToken } = tokenResponse.data
-
-      await axios.post('/api/send', { token: verificationToken.token, email: verificationToken.email })
+      if (!tokenResponse.data || !tokenResponse.data.verificationToken) {
+        toast.error("Registration failed or no verification token received.")
+        return
+      }
+      
+      //This is NOT working as expected
+      try {
+        const resendResponse = await axios.post('/api/mail', { token: tokenResponse?.data?.verificationToken?.token, email: tokenResponse?.data?.verificationToken?.email })
+        console.log("This is the resendResponse: ", resendResponse)
+      } catch (error) {
+        console.error("Error in axios.post('/api/mail'): ", error)
+      }
       
       toast.success("Confirmation Email sent! Please check your email address and verify your account!")
-
-      // if(response.data.user) {
-      //   toast.success("Account created successfully")
-      //   router.push('/auth/login')
-      // }
+      router.push('/auth/login')
 
     } catch (error) {
       console.log("Error during registration: ", error)
