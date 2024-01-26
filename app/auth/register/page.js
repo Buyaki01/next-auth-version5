@@ -40,12 +40,16 @@ const RegisterPage = () => {
       
       //This is NOT working as expected
       try {
-        const resendResponse = await axios.post("/api/mail", { tokenResponseToken, tokenResponseEmail })
+        const resendResponse = await axios.post("/api/send", { tokenResponseToken, tokenResponseEmail })
 
-        toast.success("Confirmation Email sent! Please check your email address and verify your account!")
-        router.push('/auth/login')
+        console.log("This is the resendResponse: ", resendResponse)
+
+        if (resendResponse.status === 200) {
+          toast.success("Confirmation Email sent! Please check your email address and verify your account!")
+          router.push('/auth/login')
+        }
       } catch (error) {
-        console.error("Error in axios.post('/api/mail'): ", error)
+        console.error("Error in axios.post('/api/send'): ", error)
       }
     } catch (error) {
       console.log("Error during registration: ", error)
