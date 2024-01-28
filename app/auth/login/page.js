@@ -78,7 +78,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center">
-      <div className="w-[600px] p-2 shadow-2xl shadow-rose-300">
+      <div className="w-[600px] p-5 shadow-2xl shadow-rose-300">
         <h1 className="my-5 font-bold text-2xl text-center">Login</h1>
         <form>
           <input
@@ -109,7 +109,7 @@ const LoginPage = () => {
 
         <span className="text-sm font-bold flex justify-center mt-3">or</span>
 
-        <div className="flex gap-3 justify-center my-3">
+        <div className="flex gap-3 justify-center my-5">
           <button
             onClick={() => onClick("google")}
             className="px-4 py-2 text-white border border-2 border-slate-400"
@@ -125,7 +125,7 @@ const LoginPage = () => {
           </button>
         </div>
 
-        <p className="text-sm mt-3 text-center">
+        <p className="text-sm mt-5 text-center">
           Have no account? <Link className="underline" href={"/auth/register"}>Sign Up</Link>
         </p>
       </div>

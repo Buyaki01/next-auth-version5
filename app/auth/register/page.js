@@ -28,18 +28,17 @@ const RegisterPage = () => {
         return
       }
 
-      const tokenResponse = await axios.post("/api/auth/register", { name, email, password })
-
-      if (!tokenResponse.data || !tokenResponse.data.verificationToken) {
-        toast.error("Registration failed or no verification token received.")
-        return
-      }
-
-      const tokenResponseToken = tokenResponse.data.verificationToken.token
-      const tokenResponseEmail = tokenResponse.data.verificationToken.email
-      
-      //This is NOT working as expected
       try {
+        const tokenResponse = await axios.post("/api/auth/register", { name, email, password })
+
+        if (!tokenResponse.data || !tokenResponse.data.verificationToken) {
+          toast.error("Registration failed or no verification token received.")
+          return
+        }
+
+        const tokenResponseToken = tokenResponse.data.verificationToken.token
+        const tokenResponseEmail = tokenResponse.data.verificationToken.email
+
         const resendResponse = await axios.post("/api/send", { tokenResponseToken, tokenResponseEmail })
 
         console.log("This is the resendResponse: ", resendResponse)
@@ -51,6 +50,7 @@ const RegisterPage = () => {
       } catch (error) {
         console.error("Error in axios.post('/api/send'): ", error)
       }
+      
     } catch (error) {
       console.log("Error during registration: ", error)
     }
@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center">
-      <div className="w-[600px] p-2 shadow-2xl shadow-rose-300">
+      <div className="w-[600px] p-5 shadow-2xl shadow-rose-300">
         <h1 className="my-5 font-bold text-2xl text-center">Register</h1>
         <form>
           <input
@@ -102,7 +102,7 @@ const RegisterPage = () => {
 
         <span className="text-sm font-bold flex justify-center mt-3"> or </span>
 
-        <div className="flex gap-3 justify-center my-3">
+        <div className="flex gap-3 justify-center my-5">
           <button
             onClick={() => onClick("google")}
             className="px-4 py-2 text-white border border-2 border-slate-400"
@@ -118,7 +118,7 @@ const RegisterPage = () => {
           </button>
         </div>
 
-        <p className="text-sm mt-3 text-center">
+        <p className="text-sm mt-5 text-center">
           Have an account? <Link className="underline" href={"/auth/login"}>Log In</Link>
         </p>
       </div>
