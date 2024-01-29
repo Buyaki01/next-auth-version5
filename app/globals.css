@@ -30,6 +30,7 @@ button, button[type="submit"] {
   border: none;
   box-shadow: none;
   font-size: 1.0rem;
+  color: white;
 }
 
 button:hover{
