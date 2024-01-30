@@ -36,20 +36,13 @@ const RegisterPage = () => {
           return
         }
 
-        const tokenResponseEmail = await tokenResponse?.data.verificationToken.email
-        const tokenResponseToken = await tokenResponse?.data.verificationToken.token
+        // const resendResponse = await axios.post("/api/send", { tokenResponse.data.verificationToken.email,  tokenResponse.data.verificationToken.token})
+        // if (resendResponse.status === 200) {
+        //   toast.success("Confirmation Email sent! Please check your email address and verify your account!")
+        //   router.push('/auth/login')
+        // }
 
-        console.log("This is the tokenResponseToken: ", tokenResponseToken)
-
-        const resendResponse = await axios.post("/api/send", { tokenResponseEmail, tokenResponseToken })
-
-        console.log("This is the resendResponse: ", resendResponse)
-        console.log("This is the resendResponse data: ", resendResponse.data)
-
-        if (resendResponse.status === 200) {
-          toast.success("Confirmation Email sent! Please check your email address and verify your account!")
-          router.push('/auth/login')
-        }
+        router.push(`/auth/new-verification?token=${tokenResponse.data.verificationToken.token}`)
       } catch (error) {
         console.error("Error in axios.post('/api/send'): ", error)
       }

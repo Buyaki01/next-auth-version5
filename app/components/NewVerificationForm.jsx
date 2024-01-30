@@ -1,9 +1,22 @@
 "use client"
 
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { useCallback, useEffect } from "react"
 import { BeatLoader } from "react-spinners"
 
 const NewVerificationForm = () => {
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+
+  const onSubmit = useCallback(() => {
+    console.log(token)
+  }, [token])
+
+  useEffect(() => {
+    onSubmit()
+  }, [onSubmit])
+
   return (
     <div className="bg-lime-500 min-h-screen flex flex-col justify-center items-center">
       <div className="border border-slate-300 border-4 py-5 px-10">
