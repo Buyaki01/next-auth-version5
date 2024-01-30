@@ -13,19 +13,22 @@ const RegisterPage = () => {
   const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleRegisterUser = async (e) => {
     e.preventDefault()
 
     try {
+      setLoading(true)
       const resUserExists = await axios.post("/api/auth/register/check-register-user-exists", { email })
 
       const { user } = await resUserExists.data
 
       if (user) {
         toast.error("Email already exists")
-        return
+        setLoading(false)
+        return 
       }
 
       try {
@@ -33,7 +36,10 @@ const RegisterPage = () => {
 
         if (!tokenResponse.data || !tokenResponse.data.verificationToken) {
           toast.error("Registration failed or no verification token received.")
+          setLoading(false)
           return
+        } else {
+          setLoading(false)
         }
 
         // const resendResponse = await axios.post("/api/send", { tokenResponse.data.verificationToken.email,  tokenResponse.data.verificationToken.token})
@@ -91,8 +97,9 @@ const RegisterPage = () => {
           <button
             className="w-full text-white px-4 py-2"
             onClick={handleRegisterUser}
+            disabled={loading}
           >
-            Register
+            {loading ? "Processing..." : "Register"}
           </button>
         </form>
 

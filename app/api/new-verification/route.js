@@ -2,13 +2,20 @@ import { NextResponse } from "next/server"
 import connectMongoDB from "@/lib/mongoose"
 import VerificationToken from "@/models/verificationToken"
 import User from "@/models/user"
+import validator from "validator"
 
-export const POST = async (request) => {
-  const { token } = await request.json()
+export const GET = async (request) => {
+  const url = await request.url
+  console.log("This is the URL: ", url)
 
   try {
+    let tokenValue = new URLSearchParams(url.split('?')[1]).get("token")
+    console.log("This is the token value: ", tokenValue)
+    
     connectMongoDB()
-    const existingToken = await VerificationToken.findOne({ token })
+
+    tokenValue = validator.escape(tokenValue)
+    const existingToken = await VerificationToken.findOne({ tokenValue })
     console.log("This is the existingToken from the existingToken POST route: ", existingToken)
 
     if(!existingToken) {
@@ -39,7 +46,7 @@ export const POST = async (request) => {
     await VerificationToken.deleteOne({ _id: existingToken._id })
 
     return NextResponse.json({ message: "Email verified successfully!" })
-    
+
   } catch (error) {
     console.error("Error in POST route:", error)
     return NextResponse.json({ message: "Internal server error" }, { status: 500 })
